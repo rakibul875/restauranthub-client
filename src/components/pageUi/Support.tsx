@@ -18,10 +18,8 @@ interface FAQItem {
 }
 
 const Support: React.FC = () => {
-  // FAQ সেকশনের স্টেট (কোনটি ওপেন থাকবে তা ট্র্যাক করার জন্য)
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  // ফর্মের স্টেট
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -64,7 +62,6 @@ const Support: React.FC = () => {
   return (
     <section className="w-full bg-gray-50 min-h-screen pt-24 pb-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-16">
-        {/* ১. হেডার সেکশন */}
         <div className="text-center max-w-2xl mx-auto space-y-3">
           <h1 className="text-3xl md:text-5xl font-bold text-gray-900 tracking-tight">
             Customer <span className="text-[#A64B16]">Support</span>
@@ -75,9 +72,7 @@ const Support: React.FC = () => {
           </p>
         </div>
 
-        {/* ২. কন্টাক্ট কার্ড এবং ফর্ম গ্রিড */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-          {/* বাম পাশে: কন্টাক্ট ইনফরমেশন */}
           <div className="space-y-4 lg:col-span-1">
             <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex items-start space-x-4">
               <div className="p-3 bg-orange-50 rounded-xl text-[#A64B16]">
@@ -120,7 +115,6 @@ const Support: React.FC = () => {
             </div>
           </div>
 
-          {/* ডান পাশে: কন্টাক্ট মেসেজ ফর্ম */}
           <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-100 lg:col-span-2">
             <h2 className="text-xl font-bold text-gray-900 mb-6">
               Send Us a Message
@@ -183,7 +177,6 @@ const Support: React.FC = () => {
           </div>
         </div>
 
-        {/* ৩. FAQ সেকশন (অ্যাকর্ডিয়ন) */}
         <div className="max-w-3xl mx-auto space-y-6">
           <h2 className="text-2xl font-bold text-gray-900 text-center mb-8">
             Frequently Asked Questions

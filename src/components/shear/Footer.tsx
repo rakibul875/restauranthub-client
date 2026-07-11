@@ -25,7 +25,7 @@ const Footer: React.FC = () => {
   return (
     <footer className="bg-gray-900 text-gray-300 pt-16 pb-8 border-t border-gray-800">
       <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
-        {/* ১. ব্র্যান্ড এবং বিবরণ */}
+      
         <div className="space-y-4">
           <Link
             href="/"
@@ -37,7 +37,7 @@ const Footer: React.FC = () => {
             Discover the best foods from top restaurants and get them delivered
             fresh and fast right to your doorstep.
           </p>
-          {/* সোশ্যাল আইকনসমূহ */}
+        
           <div className="flex space-x-4 pt-2">
             <a
               href="https://facebook.com"
@@ -66,7 +66,7 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* ২. কুইক লিংক (Quick Links) */}
+     
         <div>
           <h3 className="text-white font-semibold mb-4 text-lg">Quick Links</h3>
           <ul className="space-y-2.5 text-sm">
@@ -105,7 +105,7 @@ const Footer: React.FC = () => {
           </ul>
         </div>
 
-        {/* ৩. কন্টাক্ট ইনফো (Contact Info) */}
+
         <div>
           <h3 className="text-white font-semibold mb-4 text-lg">Contact Us</h3>
           <ul className="space-y-3 text-sm text-gray-400">
@@ -124,7 +124,6 @@ const Footer: React.FC = () => {
           </ul>
         </div>
 
-        {/* ৪. নিউজলেটার সাবস্ক্রিপশন */}
         <div>
           <h3 className="text-white font-semibold mb-4 text-lg">Newsletter</h3>
           <p className="text-sm text-gray-400 mb-4">
@@ -152,7 +151,7 @@ const Footer: React.FC = () => {
         </div>
       </div>
 
-      {/* নিচের কপিরাইট অংশ */}
+ 
       <div className="max-w-6xl mx-auto px-4 mt-12 pt-6 border-t border-gray-800 text-center text-xs text-gray-500 flex flex-col md:flex-row justify-between items-center gap-4">
         <p>
           &copy; {new Date().getFullYear()} RestaurantHub. All rights reserved.

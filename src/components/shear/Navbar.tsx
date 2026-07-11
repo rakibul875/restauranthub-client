@@ -7,7 +7,7 @@ import { FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
 
 const Navbar: React.FC = () => {
   const pathname = usePathname();
-  const [isOpen, setIsOpen] = useState<boolean>(false); 
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -16,14 +16,11 @@ const Navbar: React.FC = () => {
     { name: "Support", href: "/support" },
   ];
 
-
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <nav className="w-full bg-white border-b border-gray-100 relative shadow-sm z-50">
- 
+    <nav className="w-full bg-white border-b border-gray-100 sticky top-0 shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
- 
         <Link
           href="/"
           className="text-2xl font-bold text-[#A64B16] tracking-tight cursor-pointer"
@@ -31,7 +28,6 @@ const Navbar: React.FC = () => {
           RestaurantHub
         </Link>
 
-        
         <div className="hidden md:flex items-center space-x-8 text-sm font-medium">
           {navLinks.map((link) => {
             const isActive = pathname === link.href;
@@ -51,9 +47,7 @@ const Navbar: React.FC = () => {
           })}
         </div>
 
-        
         <div className="flex items-center space-x-4 md:space-x-6">
-     
           <Link
             href="/signin"
             className="hidden sm:inline-block text-sm font-medium text-gray-700 hover:text-[#A64B16] transition-colors"
@@ -61,7 +55,6 @@ const Navbar: React.FC = () => {
             Sign In
           </Link>
 
-        
           <Link
             href="/cart"
             className="relative cursor-pointer text-[#A64B16] hover:scale-105 transition-transform"
@@ -72,7 +65,6 @@ const Navbar: React.FC = () => {
             </span>
           </Link>
 
-       
           <button
             onClick={toggleMenu}
             className="md:hidden text-gray-700 hover:text-[#A64B16] p-1 transition-colors"
@@ -83,7 +75,6 @@ const Navbar: React.FC = () => {
         </div>
       </div>
 
-     
       <div
         className={`md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-100 shadow-md transition-all duration-300 ease-in-out overflow-hidden ${
           isOpen
@@ -98,7 +89,7 @@ const Navbar: React.FC = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                onClick={() => setIsOpen(false)} 
+                onClick={() => setIsOpen(false)}
                 className={`transition-colors pl-2 py-1.5 rounded-md ${
                   isActive
                     ? "text-[#A64B16] font-semibold bg-orange-50/50 border-l-4 border-[#A64B16]"
@@ -109,7 +100,7 @@ const Navbar: React.FC = () => {
               </Link>
             );
           })}
-         
+
           <Link
             href="/signin"
             onClick={() => setIsOpen(false)}

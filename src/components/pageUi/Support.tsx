@@ -10,7 +10,6 @@ import {
   FiChevronUp,
 } from "react-icons/fi";
 
-// FAQ এর জন্য ইন্টারফেস টাইপ
 interface FAQItem {
   id: number;
   question: string;

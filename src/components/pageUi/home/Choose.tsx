@@ -1,7 +1,6 @@
 import React from "react";
 import { FiTruck, FiHeart, FiShield } from "react-icons/fi";
 
-// ফিচার ডেটার জন্য টাইপ ডিফাইন করা হলো
 interface Feature {
   id: number;
   icon: React.ReactNode;
@@ -10,7 +9,6 @@ interface Feature {
 }
 
 const Choose: React.FC = () => {
-  // কার্ডের ডাটা অ্যারে
   const features: Feature[] = [
     {
       id: 1,
@@ -38,7 +36,6 @@ const Choose: React.FC = () => {
   return (
     <section className="w-full bg-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto">
-        {/* সেকশন হেডার (Title & Subtitle) */}
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-3">
           <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
             Why Choose Us?
@@ -49,19 +46,16 @@ const Choose: React.FC = () => {
           </p>
         </div>
 
-        {/* ফিচার কার্ডস গ্রিড (মোবাইলে ১ কলাম, ট্যাবে/ডেস্কটপে ৩ কলাম) */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {features.map((feature) => (
             <div
               key={feature.id}
               className="bg-gray-50 rounded-2xl p-8 flex flex-col items-center text-center border border-gray-100/50 hover:shadow-sm transition-shadow duration-300"
             >
-              {/* গোলাকার আইকন কন্টেইনার */}
               <div className="w-16 h-16 rounded-full bg-orange-100 text-[#A64B16] flex items-center justify-center mb-5">
                 {feature.icon}
               </div>
 
-              {/* কার্ড কন্টেন্ট */}
               <h3 className="text-lg font-bold text-gray-900 mb-3">
                 {feature.title}
               </h3>

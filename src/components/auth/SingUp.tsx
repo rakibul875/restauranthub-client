@@ -12,7 +12,7 @@ import {
   FiCheckCircle,
 } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
-import { promises } from "dns";
+
 
 const SingUp: React.FC = () => {
   const [fullName, setFullName] = useState<string>("");

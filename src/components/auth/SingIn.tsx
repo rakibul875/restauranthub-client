@@ -3,28 +3,35 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { FiEye, FiEyeOff, FiLogIn } from "react-icons/fi";
-
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const SingIn: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const router= useRouter()
 
-  const handleSubmit = (e: React.FormEvent): void => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
-    console.log({ email, password, rememberMe });
-    alert(`Logging in with: ${email}`);
+    const { data, error } = await authClient.signIn.email({
+      email: email,
+      password: password,
+    });
+    if (data) {
+      alert(`Logging in with: ${email}`);
+      router.push('/')
+    } else {
+      alert(error.message);
+    }
   };
-
 
   return (
     <section className="min-h-screen bg-white flex flex-col justify-center items-center px-4 pt-24 pb-12">
       <div className="w-full max-w-[400px] space-y-8">
-     
         <div className="text-center space-y-3">
           <div className="flex items-center justify-center space-x-2 text-2xl font-bold text-[#A64B16]">
-           
             <div className="bg-[#EA580C] text-white p-2 rounded-xl shadow-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -56,9 +63,7 @@ const SingIn: React.FC = () => {
           </div>
         </div>
 
-       
         <form onSubmit={handleSubmit} className="space-y-5">
-       
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-gray-700">
               Email Address
@@ -73,7 +78,6 @@ const SingIn: React.FC = () => {
             />
           </div>
 
-         
           <div className="space-y-1.5">
             <div className="flex justify-between items-center">
               <label className="text-xs font-bold text-gray-700">
@@ -105,7 +109,6 @@ const SingIn: React.FC = () => {
             </div>
           </div>
 
-       
           <div className="flex items-center space-x-2">
             <input
               type="checkbox"
@@ -122,20 +125,17 @@ const SingIn: React.FC = () => {
             </label>
           </div>
 
-     
           <div className="space-y-3 pt-2">
-        
             <button
               type="submit"
               className="w-full bg-[#EA580C] hover:bg-[#c2410c] text-white font-bold text-sm py-3 rounded-xl flex items-center justify-center space-x-2 shadow-sm transition-all"
             >
               <span>Login</span>
               <FiLogIn size={16} />
-            </button>         
+            </button>
           </div>
         </form>
 
-   
         <div className="text-center text-xs font-medium text-gray-600">
           Don`t have an account?{" "}
           <Link
@@ -146,7 +146,6 @@ const SingIn: React.FC = () => {
           </Link>
         </div>
 
-     
         <div className="flex justify-center items-center space-x-4 pt-4 text-[11px] font-medium text-gray-400 border-t border-gray-100">
           <Link
             href="/privacy"

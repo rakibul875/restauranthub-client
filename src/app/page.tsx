@@ -1,9 +1,9 @@
-
+import Banner from "@/components/pageUi/home/Banner";
 
 export default function Home() {
   return (
-   <div className="">
-    home page
-   </div>
+    <div className="">
+      <Banner />
+    </div>
   );
 }

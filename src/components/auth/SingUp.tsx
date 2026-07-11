@@ -11,6 +11,8 @@ import {
   FiEyeOff,
   FiCheckCircle,
 } from "react-icons/fi";
+import { authClient } from "@/lib/auth-client";
+import { promises } from "dns";
 
 const SingUp: React.FC = () => {
   const [fullName, setFullName] = useState<string>("");
@@ -27,14 +29,23 @@ const SingUp: React.FC = () => {
   const passwordsDoNotMatch =
     password && confirmPassword && password !== confirmPassword;
 
-  const handleSubmit = (e: React.FormEvent): void => {
+  const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault();
     if (passwordsDoNotMatch) {
       alert("Passwords do not match!");
       return;
     }
-    console.log({ fullName, profileUrl, email, password });
-    alert("Account created successfully!");
+    const { data, error } = await authClient.signUp.email({
+      email: email,
+      password: password,
+      name: fullName,
+      image: profileUrl,
+    });
+    if (data) {
+      alert("Account created successfully!");
+    } else {
+      alert(error.message);
+    }
   };
 
   return (

@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
 
         <div className="flex items-center space-x-4 md:space-x-6">
           <Link
-            href="/signin"
+            href="/auth/signin"
             className="hidden sm:inline-block text-sm font-medium text-gray-700 hover:text-[#A64B16] transition-colors"
           >
             Sign In
@@ -102,7 +102,7 @@ const Navbar: React.FC = () => {
           })}
 
           <Link
-            href="/signin"
+            href="auth/signin"
             onClick={() => setIsOpen(false)}
             className="sm:hidden text-gray-700 hover:text-[#A64B16] pl-2 py-1.5 rounded-md hover:bg-gray-50 transition-colors"
           >

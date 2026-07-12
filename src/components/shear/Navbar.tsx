@@ -13,7 +13,9 @@ const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
-
+  if (pathname.includes("dashboard")) {
+    return null;
+  }
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Foods", href: "/orders" },

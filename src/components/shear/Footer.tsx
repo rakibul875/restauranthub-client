@@ -10,6 +10,7 @@ import {
   FiPhone,
   FiMapPin,
 } from "react-icons/fi";
+import { usePathname } from "next/navigation";
 
 const Footer: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -21,6 +22,10 @@ const Footer: React.FC = () => {
       setEmail("");
     }
   };
+  const pathname= usePathname();
+   if (pathname.includes("dashboard")) {
+    return null;
+  }
 
   return (
     <footer className="bg-gray-900 text-gray-300 pt-16 pb-8 border-t border-gray-800">

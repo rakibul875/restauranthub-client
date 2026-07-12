@@ -97,7 +97,7 @@ const Navbar: React.FC = () => {
                           className="hover:bg-gray-50 rounded-lg"
                         >
                           <Link
-                            href="/dashboard"
+                            href={`/dashboard/${user.role}`}
                             className="block w-full text-sm text-gray-700 py-1.5"
                           >
                             Dashboard

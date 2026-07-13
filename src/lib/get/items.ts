@@ -5,3 +5,8 @@ export const getAllItems = async (search: string = "", category: string = "All")
   
   return handleGetSection(queryPath);
 };
+
+export const getItemById = async (id: string): Promise<any> => {
+  const queryPath = `/items/${encodeURIComponent(id)}`;
+  return handleGetSection(queryPath);
+};

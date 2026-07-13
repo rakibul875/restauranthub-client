@@ -1,26 +1,26 @@
 "use client";
 
+import { handleItemPost } from "@/lib/post/items";
 import React, { useState, useRef } from "react";
 import { FiPlusCircle, FiImage, FiLoader, FiTrash2 } from "react-icons/fi";
-
 
 const IMGBB_API_KEY = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
 
 interface FoodItemFormData {
   name: string;
   category: string;
-  price: number;
+  price: string;
   description: string;
   image: string;
 }
 
 const AddItemsForm: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+
   const [formData, setFormData] = useState<FoodItemFormData>({
     name: "",
     category: "Appetizer",
-    price: 0,
+    price: '',
     description: "",
     image: "",
   });
@@ -28,12 +28,15 @@ const AddItemsForm: React.FC = () => {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
- 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -46,16 +49,17 @@ const AddItemsForm: React.FC = () => {
 
     setIsUploading(true);
 
-   
     const uploadData = new FormData();
     uploadData.append("image", file);
 
     try {
-     
-      const response = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
-        method: "POST",
-        body: uploadData, 
-      });
+      const response = await fetch(
+        `https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`,
+        {
+          method: "POST",
+          body: uploadData,
+        },
+      );
 
       const result = await response.json();
 
@@ -87,11 +91,19 @@ const AddItemsForm: React.FC = () => {
     }
 
     setIsSubmitting(true);
-    try {
-      
-      alert("Food item added successfully!");
-      setFormData({ name: "", category: "Appetizer", price: 0, description: "", image: "" });
-      console.log("Submitting Food Item Data:", formData);
+    try {     
+      setFormData({
+        name: "",
+        category: "Appetizer",
+        price: '',
+        description: "",
+        image: "",
+      });
+      const res = await handleItemPost(formData);
+      if (res.insertedId) {
+        alert("Food item added successfully!");
+      }
+
       if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (error) {
       console.error("Submission error:", error);
@@ -104,18 +116,24 @@ const AddItemsForm: React.FC = () => {
     <section className="w-full max-w-2xl mx-auto bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-gray-100 mt-24 my-12">
       <div className="flex items-center space-x-3 border-b border-gray-100 pb-4 mb-6">
         <FiPlusCircle size={24} className="text-[#EA580C]" />
-        <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">Add New Food Item</h2>
+        <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">
+          Add New Food Item
+        </h2>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-6">
-        
-      
         <div className="space-y-2">
-          <label className="text-xs font-bold text-gray-700 block">Food Image</label>
-          
+          <label className="text-xs font-bold text-gray-700 block">
+            Food Image
+          </label>
+
           {formData.image ? (
             <div className="relative w-full h-48 rounded-xl overflow-hidden border border-gray-200 shadow-inner">
-              <img src={formData.image} alt="Food Preview" className="w-full h-full object-cover" />
+              <img
+                src={formData.image}
+                alt="Food Preview"
+                className="w-full h-full object-cover"
+              />
               <button
                 type="button"
                 onClick={handleRemoveImage}
@@ -125,26 +143,30 @@ const AddItemsForm: React.FC = () => {
               </button>
             </div>
           ) : (
-            <div 
+            <div
               onClick={() => fileInputRef.current?.click()}
               className="w-full h-48 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center bg-gray-50 hover:bg-gray-100/70 cursor-pointer transition-all space-y-2"
             >
               {isUploading ? (
                 <>
                   <FiLoader size={28} className="text-[#EA580C] animate-spin" />
-                  <span className="text-xs font-semibold text-gray-500">Uploading to ImgBB...</span>
+                  <span className="text-xs font-semibold text-gray-500">
+                    Uploading to ImgBB...
+                  </span>
                 </>
               ) : (
                 <>
                   <FiImage size={32} className="text-gray-400" />
-                  <span className="text-xs font-bold text-gray-600">Click to upload food photo</span>
+                  <span className="text-xs font-bold text-gray-600">
+                    Click to upload food photo
+                  </span>
                 </>
               )}
             </div>
           )}
-          
-          <input 
-            type="file" 
+
+          <input
+            type="file"
             ref={fileInputRef}
             onChange={handleImageUpload}
             accept="image/*"
@@ -153,24 +175,31 @@ const AddItemsForm: React.FC = () => {
           />
         </div>
 
-       
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-gray-700">Food Name</label>
-            <input 
-              type="text" name="name" required
-              value={formData.name} onChange={handleChange}
-              placeholder="e.g. Grilled Salmon Salad" 
+            <input
+              type="text"
+              name="name"
+              required
+              value={formData.name}
+              onChange={handleChange}
+              placeholder="e.g. Grilled Salmon Salad"
               className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#EA580C] focus:bg-white transition-all text-gray-800"
             />
           </div>
 
           <div className="space-y-1.5">
             <label className="text-xs font-bold text-gray-700">Price ($)</label>
-            <input 
-              type="number" name="price" required step="0.01" min="0"
-              value={formData.price} onChange={handleChange}
-              placeholder="e.g. 14.99" 
+            <input
+              type="number"
+              name="price"
+              required
+              step="0.01"
+              min="0"
+              value={formData.price}
+              onChange={handleChange}
+              placeholder="e.g. 14.99"
               className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#EA580C] focus:bg-white transition-all text-gray-800"
             />
           </div>
@@ -178,9 +207,10 @@ const AddItemsForm: React.FC = () => {
 
         <div className="space-y-1.5">
           <label className="text-xs font-bold text-gray-700">Category</label>
-          <select 
+          <select
             name="category"
-            value={formData.category} onChange={handleChange}
+            value={formData.category}
+            onChange={handleChange}
             className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#EA580C] focus:bg-white transition-all text-gray-800"
           >
             <option value="Appetizer">Appetizer</option>
@@ -192,20 +222,27 @@ const AddItemsForm: React.FC = () => {
 
         <div className="space-y-1.5">
           <label className="text-xs font-bold text-gray-700">Description</label>
-          <textarea 
-            name="description" rows={4} required
-            value={formData.description} onChange={handleChange}
-            placeholder="Describe the ingredients..." 
+          <textarea
+            name="description"
+            rows={4}
+            required
+            value={formData.description}
+            onChange={handleChange}
+            placeholder="Describe the ingredients..."
             className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-[#EA580C] focus:bg-white transition-all text-gray-800 resize-none"
           />
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           disabled={isUploading || isSubmitting}
           className="w-full bg-[#EA580C] hover:bg-[#c2410c] disabled:bg-gray-300 text-white font-bold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center space-x-2"
         >
-          {isSubmitting ? <span>Adding Item...</span> : <span>Add Item to Menu</span>}
+          {isSubmitting ? (
+            <span>Adding Item...</span>
+          ) : (
+            <span>Add Item to Menu</span>
+          )}
         </button>
       </form>
     </section>

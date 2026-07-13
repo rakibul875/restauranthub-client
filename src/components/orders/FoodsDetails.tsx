@@ -1,6 +1,9 @@
 "use client";
 
 import { FoodItem } from "@/app/orders/[id]/page";
+import { authClient } from "@/lib/auth-client";
+import { handleCartPost } from "@/lib/post/cart";
+import { AppWindow } from "lucide";
 import React from "react";
 
 import {
@@ -17,9 +20,24 @@ interface FoodDetailsContentProps {
 const FoodDetailsContent: React.FC<FoodDetailsContentProps> = ({
   foodItem,
 }) => {
-  const handleAddToCart = () => {
-    console.log("Added to Cart:", foodItem.name);
-    alert(`${foodItem.name} added to cart!`);
+  const {data,}= authClient.useSession();
+  const user = data?.user;
+  const userId = user?.id;
+  const userEmail = user?.email;
+
+  const handleAddToCart = async () => {
+    const cartData = {
+      id: foodItem._id,
+      name: foodItem.name,
+      price: foodItem.price,
+      image: foodItem.image,
+      userId: userId,
+      userEmail: userEmail,
+    };
+    const res = await handleCartPost(cartData);
+    if (res.insertedId) {
+      alert(`${foodItem.name} added to cart!`);
+    }
   };
 
   const handleOrderNow = () => {

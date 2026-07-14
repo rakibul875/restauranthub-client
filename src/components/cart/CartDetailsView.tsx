@@ -14,12 +14,12 @@ interface CartDetailsViewProps {
 const CartDetailsView: React.FC<CartDetailsViewProps> = ({
   initialCartItems,
 }) => {
-  const router= useRouter()
+  const router = useRouter();
   const handleDelete = async (id: any) => {
     const res = await dataDelete(`/my-cart/${id}`);
-    if(res.deletedCount>0){
-        alert('Item delete Successful')
-        router.refresh()
+    if (res.deletedCount > 0) {
+      alert("Item delete Successful");
+      router.refresh();
     }
   };
   const subtotal = initialCartItems.reduce(
@@ -115,10 +115,18 @@ const CartDetailsView: React.FC<CartDetailsViewProps> = ({
           </div>
         </div>
 
-        <button className="w-full bg-[#EA580C] hover:bg-[#c2410c] text-white font-bold text-sm py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-md shadow-orange-500/10 active:scale-98">
-          <FiCreditCard size={16} />
-          <span>Proceed to Checkout</span>
-        </button>
+        <form action={"/api/checkout_sessions"} method="POST">
+          <input type="hidden" name="price" value={totalAmount.toFixed(2)} />
+          <input type="hidden" name="title" value="Checkout All Product" />
+          <input type="hidden" name="productId" value="1200" />
+          <button
+            type="submit"
+            className="w-full bg-[#EA580C] hover:bg-[#c2410c] text-white font-bold text-sm py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-md shadow-orange-500/10 active:scale-98"
+          >
+            <FiCreditCard size={16} />
+            <span>Proceed to Checkout</span>
+          </button>
+        </form>
 
         <p className="text-[10px] text-center text-gray-400 font-medium leading-normal">
           Taxes calculated at checkout. By continuing, you agree to our Terms.

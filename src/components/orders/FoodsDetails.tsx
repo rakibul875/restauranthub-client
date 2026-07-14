@@ -20,7 +20,7 @@ interface FoodDetailsContentProps {
 const FoodDetailsContent: React.FC<FoodDetailsContentProps> = ({
   foodItem,
 }) => {
-  const {data,}= authClient.useSession();
+  const { data } = authClient.useSession();
   const user = data?.user;
   const userId = user?.id;
   const userEmail = user?.email;
@@ -110,13 +110,22 @@ const FoodDetailsContent: React.FC<FoodDetailsContentProps> = ({
               <span>Add to Cart</span>
             </button>
 
-            <button
-              onClick={handleOrderNow}
-              className="w-full bg-[#EA580C] hover:bg-[#c2410c] text-white font-bold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-md shadow-orange-500/10 active:scale-98"
-            >
-              <FiCreditCard size={16} />
-              <span>Order Now</span>
-            </button>
+            <form action={"/api/checkout_sessions"} method="POST">
+              <input
+                type="hidden"
+                name="price"
+                value={foodItem.price}
+              />
+              <input type="hidden" name="title" value={foodItem.name} />
+              <input type="hidden" name="productId" value={foodItem._id} />
+              <button
+                type="submit"
+                className="w-full bg-[#EA580C] hover:bg-[#c2410c] text-white font-bold text-sm py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-md shadow-orange-500/10 active:scale-98"
+              >
+                <FiCreditCard size={16} />
+                <span>Order Now</span>
+              </button>
+            </form>
           </div>
           <p className="text-[10px] text-center text-gray-400 font-medium">
             Safe & Secure checkout guaranteed.

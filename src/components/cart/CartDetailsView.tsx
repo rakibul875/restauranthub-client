@@ -1,6 +1,7 @@
 "use client";
 
 import { CartItem } from "@/app/cart/page";
+import { dataDelete } from "@/lib/action/serverPost";
 import React from "react";
 
 import { FiTrash2, FiShoppingBag, FiCreditCard } from "react-icons/fi";
@@ -12,8 +13,11 @@ interface CartDetailsViewProps {
 const CartDetailsView: React.FC<CartDetailsViewProps> = ({
   initialCartItems,
 }) => {
-  const handleDelete = () => {
-    alert("button click");
+  const handleDelete = async (id: any) => {
+    const res = await dataDelete(`/my-cart/${id}`);
+    if(res.deletedCount>0){
+        alert('Item delete Successful')
+    }
   };
   const subtotal = initialCartItems.reduce(
     (acc, item) => acc + parseFloat(item.price || "0"),
@@ -71,7 +75,7 @@ const CartDetailsView: React.FC<CartDetailsViewProps> = ({
 
             <button
               className="text-gray-400 hover:text-red-600 p-2.5 rounded-xl hover:bg-red-50/50 transition-all border border-transparent hover:border-red-100/50 flex-shrink-0"
-              onClick={handleDelete}
+              onClick={() => handleDelete(item._id)}
             >
               <FiTrash2 size={18} />
             </button>

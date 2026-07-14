@@ -2,7 +2,7 @@ import CartDetailsView from "@/components/cart/CartDetailsView";
 import { auth } from "@/lib/auth";
 import { getMyCart } from "@/lib/get/my-cart";
 import { headers } from "next/headers";
-import React from "react";
+
 export interface CartItem {
   _id: string;
   name: string;

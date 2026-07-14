@@ -6,5 +6,5 @@ export const handleGetSection = async (path: string): Promise<unknown> => {
     }
   );
 
-  return await res.json();
+  return res.json();
 };

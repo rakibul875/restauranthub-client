@@ -1,18 +1,51 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
 import { authClient } from "@/lib/auth-client";
 import { Avatar, Button, Dropdown } from "@heroui/react";
 import { ArrowRightFromSquare } from "@gravity-ui/icons";
+import { getMyCart } from "@/lib/get/my-cart";
+import { array } from "better-auth";
+interface CartItem {
+  _id: string;
+  name: string;
+  price: string;
+  image: string;
+  category: string;
+}
 
 const Navbar: React.FC = () => {
   const pathname = usePathname();
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
+  const userId = user?.id;
+  useEffect(() => {
+    if (isPending || !userId) return;
+
+    const loadCartItems = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/my-cart?userId=${userId}`,{
+            cache:'no-store'
+          }
+        );
+
+        const data = await res.json();
+        setCartItems(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    loadCartItems();
+  }, [userId, isPending]);
+  
   if (pathname.includes("dashboard")) {
     return null;
   }
@@ -153,7 +186,7 @@ const Navbar: React.FC = () => {
             >
               <FiShoppingCart size={22} className="md:size-[24px]" />
               <span className="absolute -top-2 -right-2 bg-[#A64B16] text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
-                0
+                {cartItems.length}
               </span>
             </Link>
 

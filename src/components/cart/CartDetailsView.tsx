@@ -2,6 +2,7 @@
 
 import { CartItem } from "@/app/cart/page";
 import { dataDelete } from "@/lib/action/serverPost";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 import { FiTrash2, FiShoppingBag, FiCreditCard } from "react-icons/fi";
@@ -13,10 +14,12 @@ interface CartDetailsViewProps {
 const CartDetailsView: React.FC<CartDetailsViewProps> = ({
   initialCartItems,
 }) => {
+  const router= useRouter()
   const handleDelete = async (id: any) => {
     const res = await dataDelete(`/my-cart/${id}`);
     if(res.deletedCount>0){
         alert('Item delete Successful')
+        router.refresh()
     }
   };
   const subtotal = initialCartItems.reduce(

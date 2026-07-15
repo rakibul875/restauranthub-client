@@ -3,6 +3,7 @@ import type { Stripe } from "stripe";
 
 import { stripe } from "@/lib/stripe";
 import { postSubscription } from "@/lib/post/subscription";
+import { postOrder } from "@/lib/post/order";
 
 interface Subscription {
   userName: string;
@@ -47,14 +48,16 @@ export default async function Success({ searchParams }: SuccessPageProps) {
 
     const orderData = {
       productImage: metadata.productImage ?? "",
+      sessionId: session_id ?? "",
       productName: metadata.productName ?? "",
       productPrice: metadata.price ?? "",
       status: metadata.status ?? "",
     };
 
-    console.log(orderData);
+    
 
     await postSubscription(subscriptionData);
+    await postOrder(orderData)
 
     return (
       <section id="success">

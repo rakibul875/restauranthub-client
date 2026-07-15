@@ -1,6 +1,8 @@
 "use client";
 
 import { OrderItem } from "@/app/dashboard/customer/my-orders/page";
+import { dataDelete } from "@/lib/action/serverPost";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 import {
@@ -20,12 +22,15 @@ const OrderListContainer: React.FC<OrderListContainerProps> = ({
 }) => {
   const [orders, setOrders] = useState<OrderItem[]>(initialOrders || []);
 
-
-  const handleCancelOrder = async (orderId: string) => {
-   alert(`button click ${orderId}`)
+  const router = useRouter();
+  const handleDelete = async (id: any) => {
+    const res = await dataDelete(`/my-order/${id}`);
+    if (res.deletedCount > 0) {
+      alert("Item delete Successful");
+      router.refresh();
+    }
   };
 
- 
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "pending":
@@ -100,7 +105,6 @@ const OrderListContainer: React.FC<OrderListContainerProps> = ({
             key={order._id}
             className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow flex flex-col md:flex-row md:items-center justify-between gap-5"
           >
-           
             <div className="flex items-center space-x-4 min-w-0">
               <div className="w-20 h-20 bg-gray-50 rounded-xl overflow-hidden flex-shrink-0 border border-gray-100 shadow-inner">
                 <img
@@ -123,7 +127,6 @@ const OrderListContainer: React.FC<OrderListContainerProps> = ({
             </div>
 
             <div className="flex items-center md:justify-end gap-4 border-t md:border-t-0 pt-3 md:pt-0 border-gray-50 justify-between">
-         
               <span
                 className={`text-[11px] font-bold ${badge.bg} border px-3 py-1.5 rounded-xl flex items-center gap-1.5 uppercase tracking-wider`}
               >
@@ -131,12 +134,9 @@ const OrderListContainer: React.FC<OrderListContainerProps> = ({
                 {badge.text}
               </span>
 
-      
               {order.status === "pending" && (
                 <button
-                  onClick={() =>
-                    handleCancelOrder(order._id)
-                  }
+                  onClick={() => handleDelete(order._id)}
                   className="text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100/70 border border-red-100 px-4 py-2 rounded-xl transition-all active:scale-95"
                 >
                   Cancel Order

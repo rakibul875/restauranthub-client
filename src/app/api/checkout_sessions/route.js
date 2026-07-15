@@ -18,6 +18,8 @@ export async function POST(request) {
     const price=formData.get('price')
     const title=formData.get('title')
     const productId=formData.get("productId")
+    const productImage=formData.get('image')
+    const status=formData.get('status')
 
 
     // Create Checkout Sessions from body params.
@@ -40,8 +42,11 @@ export async function POST(request) {
         price:Number(price),
         userEmail: user?.email,
         userId:user?.id,
+        userName:user?.name,
         productName: title,
-        productId: productId,       
+        productId: productId,  
+        productImage:productImage,
+        status:status     
       },
       mode: 'payment',
       success_url: `${origin}/success?session_id={CHECKOUT_SESSION_ID}`,

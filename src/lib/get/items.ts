@@ -10,3 +10,7 @@ export const getItemById = async (id: string): Promise<any> => {
   const queryPath = `/items/${encodeURIComponent(id)}`;
   return handleGetSection(queryPath);
 };
+
+export const getLatestItem=async():Promise<any>=>{
+  return handleGetSection('/latest-items')
+}

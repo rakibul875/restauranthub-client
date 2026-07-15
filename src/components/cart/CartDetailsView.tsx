@@ -119,6 +119,7 @@ const CartDetailsView: React.FC<CartDetailsViewProps> = ({
           <input type="hidden" name="price" value={totalAmount.toFixed(2)} />
           <input type="hidden" name="title" value="Checkout All Product" />
           <input type="hidden" name="productId" value="1200" />
+          <input type="hidden" name="status" value="pending" />
           <button
             type="submit"
             className="w-full bg-[#EA580C] hover:bg-[#c2410c] text-white font-bold text-sm py-4 rounded-xl transition-all flex items-center justify-center gap-2 shadow-md shadow-orange-500/10 active:scale-98"

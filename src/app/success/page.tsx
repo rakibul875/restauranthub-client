@@ -55,6 +55,7 @@ export default async function Success({ searchParams }: SuccessPageProps) {
 
     const orderData = {
       productImage: metadata.productImage ?? "",
+      userId: metadata.userId ?? "",
       sessionId: session_id ?? "",
       productName: metadata.productName ?? "",
       productPrice: metadata.price ?? "",
@@ -62,19 +63,20 @@ export default async function Success({ searchParams }: SuccessPageProps) {
     };
 
     await postSubscription(subscriptionData);
-    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/my-cart/user/${metadata?.userId}`, {
-      method: "DELETE",
-    });
+    await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/my-cart/user/${metadata?.userId}`,
+      {
+        method: "DELETE",
+      },
+    );
     await postOrder(orderData);
 
     return (
       <div className="min-h-screen bg-gradient-to-br from-gray-50 via-gray-100/40 to-gray-50 flex items-center justify-center py-16 px-4 sm:px-6 lg:px-8 mt-12">
         <div className="max-w-md w-full bg-white rounded-3xl border border-gray-100 shadow-xl p-8 relative overflow-hidden text-center space-y-6">
-          {/* ব্যাকগ্রاؤنড ডেকোরেশন গ্লো */}
           <div className="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-emerald-500 to-teal-500" />
           <div className="absolute -top-12 -right-12 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl" />
 
-          {/* ১. সাকসেস আইকন (অ্যানিমেটেড পালস) */}
           <div className="flex justify-center">
             <div className="relative">
               <div className="absolute inset-0 bg-emerald-100 rounded-full animate-ping opacity-25 scale-75" />
@@ -84,7 +86,6 @@ export default async function Success({ searchParams }: SuccessPageProps) {
             </div>
           </div>
 
-          {/* ২. হেডিং ও সাবটাইটেল */}
           <div className="space-y-2">
             <h1 className="text-2xl font-black text-gray-950 tracking-tight">
               Payment Successful!
@@ -96,7 +97,6 @@ export default async function Success({ searchParams }: SuccessPageProps) {
 
           <hr className="border-gray-100" />
 
-          {/* ৩. অর্ডারের কুইক ডিটেইলস বক্স */}
           {metadata.productName && (
             <div className="bg-gray-50/70 border border-gray-100 p-4 rounded-2xl flex items-center gap-4 text-left">
               {metadata.productImage ? (
@@ -126,7 +126,6 @@ export default async function Success({ searchParams }: SuccessPageProps) {
             </div>
           )}
 
-          {/* ৪. নোটিফিকেশন মেসেজ */}
           <div className="bg-orange-50/40 border border-orange-100/50 p-4 rounded-2xl text-xs font-medium text-gray-600 leading-relaxed text-left flex gap-3">
             <FiMail size={18} className="text-[#EA580C] flex-shrink-0 mt-0.5" />
             <div>
@@ -145,7 +144,6 @@ export default async function Success({ searchParams }: SuccessPageProps) {
             </div>
           </div>
 
-          {/* ৫. অ্যাকশন বাটন */}
           <div className="pt-2">
             <Link
               href="/orders"
